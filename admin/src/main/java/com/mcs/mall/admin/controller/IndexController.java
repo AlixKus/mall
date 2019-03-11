@@ -1,6 +1,8 @@
 package com.mcs.mall.admin.controller;
 
 import com.mcs.mall.mapper.UmsAdminDAO;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,12 @@ public class IndexController {
     @RequestMapping("/")
     public String hello() {
         return "Hello";
+    }
+
+    @RequestMapping("rd")
+    public String rd()
+    {
+        return RandomStringUtils.randomAlphabetic(4, 31);
     }
 
     @RequestMapping("/all")

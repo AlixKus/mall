@@ -4,3 +4,8 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+
+logging:
+  level:
+    root: info
+    com.mcs.mall: debug
