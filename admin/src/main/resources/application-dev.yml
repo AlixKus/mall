@@ -5,6 +5,12 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
 
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML
+
+
 logging:
   level:
     root: info
