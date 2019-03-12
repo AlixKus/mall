@@ -5,62 +5,52 @@ import java.util.Date;
 
 /**
  * ums_admin
- * @author 
+ *
+ * @author mcs
  */
 public class UmsAdmin implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long id;
-
     /**
      * 登录用户名
      */
     private String username;
-
     /**
      * 密码
      */
     private String password;
-
     /**
      * 头像
      */
     private String icon;
-
     /**
      * 邮箱
      */
     private String email;
-
     /**
      * 昵称
      */
     private String nickName;
-
     /**
      * 备注信息
      */
     private String note;
-
     /**
      * 创建时间
      */
     private Date createTime;
-
     /**
      * 最后登录时间
      */
     private Date loginTime;
-
     /**
      * 帐号启用状态：0->禁用；1->启用
      */
     private Integer status;
-
     /**
      * 密码salt
      */
     private String salt;
-
-    private static final long serialVersionUID = 1L;
 
     public Long getId() {
         return id;
@@ -163,16 +153,16 @@ public class UmsAdmin implements Serializable {
         }
         UmsAdmin other = (UmsAdmin) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
-            && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getNickName() == null ? other.getNickName() == null : this.getNickName().equals(other.getNickName()))
-            && (this.getNote() == null ? other.getNote() == null : this.getNote().equals(other.getNote()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getLoginTime() == null ? other.getLoginTime() == null : this.getLoginTime().equals(other.getLoginTime()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getSalt() == null ? other.getSalt() == null : this.getSalt().equals(other.getSalt()));
+                && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
+                && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
+                && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
+                && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
+                && (this.getNickName() == null ? other.getNickName() == null : this.getNickName().equals(other.getNickName()))
+                && (this.getNote() == null ? other.getNote() == null : this.getNote().equals(other.getNote()))
+                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+                && (this.getLoginTime() == null ? other.getLoginTime() == null : this.getLoginTime().equals(other.getLoginTime()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getSalt() == null ? other.getSalt() == null : this.getSalt().equals(other.getSalt()));
     }
 
     @Override
