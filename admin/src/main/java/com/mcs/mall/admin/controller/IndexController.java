@@ -25,7 +25,7 @@ public class IndexController {
     @RequestMapping("rd")
     public String rd()
     {
-        return RandomStringUtils.randomAlphabetic(4, 31);
+        return RandomStringUtils.randomAlphabetic(10, 30);
     }
 
     @RequestMapping("/all")
