@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div id="app" class="container">
+    <div class="row">
+        <div class="col">
+            <h4>message 模板</h4>
+            {{ message }}
+        </div>
+        <div class="col">
+            <h4>v-if</h4>
+            <p v-if="seen">现在你看到我了</p>
+        </div>
+        <div class="col">
+            <h4>v-for</h4>
+            <ol>
+                <li v-for="todo in todos">
+                    {{ todo.text }}
+                </li>
+            </ol>
+        </div>
+        <div class="col">
+            <h4>v-on:click</h4>
+            <button v-on:click="reverserMessage">reverserMessage</button>
+        </div>
+        <div class="col">
+            <h4>v-model</h4>
+            <input v-model="message"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4>Use static Componet too-item-s</h4>
+            <ol>
+                <todo-item-s></todo-item-s>
+            </ol>
+        </div>
+        <div class="col">
+            <h4>Use dynamic Componet too-item</h4>
+            <ol>
+                <!--
+                  现在我们为每个 todo-item 提供 todo 对象
+                  todo 对象是变量，即其内容可以是动态的。
+                  我们也需要为每个组件提供一个“key”，稍后再
+                  作详细解释。
+                -->
+                <todo-item
+                        v-for="item in todos"
+                        v-bind:todo="item"
+                        v-bind:key="item.id"
+                ></todo-item>
+            </ol>
+        </div>
+        <div class="col">
+            <h4>V2.6+ dynamic attribute And Event</h4>
+            <p v-bind:[attr]="message">{{message}}</p>
+            <a v-on:[eventname]="hello"> Hello </a>
+        </div>
+        <div class="col">
+            <h4>缩写v-bind=: v-on=@</h4>
+            <p :[attr]="message">{{message}}</p>
+            <a @[eventname]="hello"> Hello </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4>计算属性</h4>
+            <p>Computed reversed message: "{{ reversedMessage }}"</p>
+        </div>
+        <div class="col">
+            <h4>YES OR NO?</h4>
+            <input v-model="question" th:type="text"/>
+            <h2>{{answer}}</h2>
+            <img :src="image">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <template v-if="loginType">
+                <label>Username</label>
+                <input placeholder="Enter your username">
+            </template>
+            <template v-else>
+                <label>Email</label>
+                <input placeholder="Enter your email address">
+            </template>
+            <button @click="toggleLoginType">Toggle LoginType</button>
+        </div>
+        <div class="col">
+            <h4>遍历Object</h4>
+            <ul>
+                <li v-for="(value,key,index) in user">
+                    {{index}} {{key}}:{{value}}
+                </li>
+                <label>添加(key:val)属性</label>
+                <input v-model="userProp" th:type="text"/>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>To Do List</h2>
+            <input id="toDoListInput" v-model="toDoText" th:type="text"/>
+            <button @click="addTodo()">添加TODO</button>
+            <template v-for="(item,index) in toDoList">
+                <li>{{item}}</li>
+                <button @click="removeToDo(item)">Remove</button>
+            </template>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/lodash.min.js}"></script>
+<script th:src="@{/js/axios.min.js}"></script>
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
+<script>
+    //静态组件
+    Vue.component('todo-item-s', {
+        template: '<li>This is a todo</li>'
+    })
+    //动态组件
+    Vue.component('todo-item', {
+        // todo-item 组件现在接受一个
+        // "prop"，类似于一个自定义特性。
+        // 这个 prop 名为 todo。
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+    })
+
+</script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello,Vue!',
+            seen: true,
+            todos: [{text: 'JavaScript'}, {text: 'Vue'}, {text: 'Next'}],
+            attr: 'title',
+            eventname: 'click',
+            question: '',
+            answer: '',
+            image: null,
+            loginType: true,
+            user: {
+                "用户名": 'root',
+                "e-mail": 'root@mail.com'
+            },
+            userProp: '',
+            toDoList: ['起床', '睡觉'],
+            toDoText: '',
+        },
+        created: function () {
+            // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+            // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+            // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+            // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+            // 请参考：https://lodash.com/docs#debounce
+            this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
+            this.debouncedGetUserProp = _.debounce(this.changeUser, 300)
+        },
+        watch: {
+            // 如果 `question` 发生改变，这个函数就会运行
+            question: function (newQuestion, oldQuestion) {
+                this.answer = 'Waiting for you to stop typing...'
+                this.debouncedGetAnswer()
+            },
+            userProp: function (newText, oldText) {
+                this.debouncedGetUserProp();
+            }
+        },
+        computed: {
+            reversedMessage: function () {
+                return this.message.split('').reverse().join('');
+            }
+        },
+        methods: {
+            reverserMessage: function () {
+                this.message = this.message.split('').reverse().join('');
+            },
+            hello: function () {
+                console.log("hello");
+            },
+            getAnswer: function () {
+                if (this.question.indexOf('?') === -1) {
+                    this.answer = 'Questions usually contain a question mark. ;-)';
+                    return;
+                }
+                this.answer = 'Thinking...💧';
+                var vm = this;
+                axios.get('https://yesno.wtf/api')
+                    .then(function (response) {
+                        vm.answer = _.capitalize(response.data.answer) + '😆!';
+                        vm.image = response.data.image;
+                    })
+                    .catch(function (error) {
+                        vm.answer = 'Error! Could not reach the API. ' + error;
+                    })
+            },
+            toggleLoginType: function () {
+                    this.loginType = !this.loginType;
+            },
+            changeUser: function () {
+                if (this.userProp.indexOf(':') != -1) {
+                    var props = _.split(this.userProp, ':', 2);
+                    key = props[0];
+                    val = props[1];
+                    //Vue.set(this.user, key, val);
+                    this.$set(this.user, key, val);
+                }
+            },
+            addTodo: function () {
+                if (this.toDoList[this.toDoList.length - 1] == this.toDoText) {
+                    return;
+                }
+                this.toDoList.push(this.toDoText);
+                this.toDoText = "";
+            },
+            removeToDo: function (toDoText) {
+                this.toDoList = this.toDoList.filter(function (item) {
+                    return item != toDoText;
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>
