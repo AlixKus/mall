@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>File</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+    <input class="file" name="file" type="file" accept="image/png,image/gif,image/jpeg" @change="update($event)"/>
+</div>
+
+<script th:src="@{/js/lodash.min.js}"></script>
+<script th:src="@{/js/axios.min.js}"></script>
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
+<script>
+    var data = {
+        msg: 'File Upload'
+    }
+    var app = new Vue({
+        el: '#app',
+        data: data,
+        methods: {
+            update: function (e) {
+                let file = e.target.files[0];
+                let param = new FormData(); //创建form对象
+                param.append('icon', file, file.name);//通过append向form对象添加数据
+                //param.append('chunk','0');//添加form表单中其他数据
+                //console.log(param.get('tweetPic')); //FormData私有类对象，访问不到，可以通过get判断值是否传进去
+                let config = {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                };  //添加请求头
+                axios.post('/upload', param, config)
+                    .then(response => {
+                        console.log(response.data);
+                    })
+            }
+        }
+    });
+</script>
+</body>
+</html>

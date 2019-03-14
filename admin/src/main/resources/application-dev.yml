@@ -13,7 +13,13 @@ spring:
 server:
   port: 8080
 
+file:
+  rootPath: F:\upload
+  imgPath: /img/
+
+
 logging:
   level:
     root: info
     com.mcs.mall: debug
+
