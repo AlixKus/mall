@@ -23,6 +23,11 @@ public class AdminUserDetails implements UserDetails {
         System.out.println(adminUserDetails.getAuthorities().toString());
     }
 
+    public Long getID()
+    {
+        return umsAdmin.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList();
