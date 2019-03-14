@@ -8,6 +8,16 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>LATEST</version>
+        </dependency>
+    </dependencies>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
 
     <artifactId>mbg</artifactId>
 

@@ -1,6 +1,6 @@
 package com.mcs.mall.admin.controller.page;
 
-import com.mcs.mall.mapper.UmsAdminDAO;
+import com.mcs.mall.mapper.UmsAdminMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 
     @Autowired
-    UmsAdminDAO umsAdminDAO;
+    UmsAdminMapper umsAdminDAO;
     private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @ResponseBody
