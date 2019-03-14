@@ -7,27 +7,35 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.stream.Stream;
 
 @Service
 public class LocalFileService implements FileService {
-    public static final String TYPE_JPG = "jpg";
-    public static final String TYPE_GIF = "gif";
-    public static final String TYPE_PNG = "png";
-    public static final String TYPE_BMP = "bmp";
 
+    private String rootLocation;
 
     @Autowired
-    UploadProperty uploadProperty;
+    public LocalFileService(UploadProperty uploadProperty) {
+        rootLocation = uploadProperty.getIMG_PATH();
+    }
 
     @Override
     public String store(MultipartFile file) throws Exception {
         byte[] fileContent = file.getBytes();
-        String fileName = genFileName(DigestUtils.md5DigestAsHex(fileContent), imgType(file.getOriginalFilename()));
-        String rootLocation = "F:\\upload/img/";//uploadProperty.getIMG_PATH();
+        String fileName = genFileName(DigestUtils.md5DigestAsHex(fileContent), fileType(file.getOriginalFilename()));
         Files.write(Paths.get(rootLocation, fileName), fileContent, StandardOpenOption.CREATE);
         return fileName;
+    }
+
+    @Override
+    public Stream<Path> loadAll() throws Exception {
+        Path rootPath = Paths.get(this.rootLocation);
+        return Files.walk(rootPath, 1)
+                .filter(path -> !path.equals(rootPath))
+                .map(rootPath::relativize);
     }
 
     public static String genFileName(String fileName, String fileType) {
@@ -38,14 +46,10 @@ public class LocalFileService implements FileService {
         return sb.toString();
     }
 
-    public static String imgType(String fileName) {
+    public static String fileType(String fileName) {
         String[] strArray = fileName.split("\\.");
         int suffixIndex = strArray.length - 1;
         return strArray[suffixIndex];
-    }
-
-    private boolean checkImg(String fileType) {
-        return true;
     }
 
     public static void main(String[] args) {

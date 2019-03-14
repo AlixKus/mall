@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
-<div id="app" class="container">
+<div class="container" id="app">
     <div class="row">
         <div class="col">
             <h4>message 模板</h4>
@@ -50,9 +50,9 @@
                   作详细解释。
                 -->
                 <todo-item
-                        v-for="item in todos"
-                        v-bind:todo="item"
                         v-bind:key="item.id"
+                        v-bind:todo="item"
+                        v-for="item in todos"
                 ></todo-item>
             </ol>
         </div>
@@ -74,7 +74,7 @@
         </div>
         <div class="col">
             <h4>YES OR NO?</h4>
-            <input v-model="question" th:type="text"/>
+            <input th:type="text" v-model="question"/>
             <h2>{{answer}}</h2>
             <img :src="image">
         </div>
@@ -98,14 +98,14 @@
                     {{index}} {{key}}:{{value}}
                 </li>
                 <label>添加(key:val)属性</label>
-                <input v-model="userProp" th:type="text"/>
+                <input th:type="text" v-model="userProp"/>
             </ul>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <h2>To Do List</h2>
-            <input id="toDoListInput" v-model="toDoText" th:type="text"/>
+            <input id="toDoListInput" th:type="text" v-model="toDoText"/>
             <button @click="addTodo()">添加TODO</button>
             <template v-for="(item,index) in toDoList">
                 <li>{{item}}</li>
@@ -124,7 +124,7 @@
     //静态组件
     Vue.component('todo-item-s', {
         template: '<li>This is a todo</li>'
-    })
+    });
     //动态组件
     Vue.component('todo-item', {
         // todo-item 组件现在接受一个
@@ -168,7 +168,7 @@
         watch: {
             // 如果 `question` 发生改变，这个函数就会运行
             question: function (newQuestion, oldQuestion) {
-                this.answer = 'Waiting for you to stop typing...'
+                this.answer = 'Waiting for you to stop typing...';
                 this.debouncedGetAnswer()
             },
             userProp: function (newText, oldText) {
@@ -204,7 +204,7 @@
                     })
             },
             toggleLoginType: function () {
-                    this.loginType = !this.loginType;
+                this.loginType = !this.loginType;
             },
             changeUser: function () {
                 if (this.userProp.indexOf(':') != -1) {

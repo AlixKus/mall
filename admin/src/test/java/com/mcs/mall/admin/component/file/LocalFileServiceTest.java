@@ -11,9 +11,9 @@ public class LocalFileServiceTest {
 
     @Test
     public void store() throws Exception {
-        InputStream inputStream = new FileInputStream(Paths.get("F:", "c.jpg").toFile());
-        MockMultipartFile mockMultipartFile = new MockMultipartFile("c.jpg", "c.jpg", null, inputStream);
-        FileService fileService = new LocalFileService();
-        fileService.store(mockMultipartFile);
+//        InputStream inputStream = new FileInputStream(Paths.get("F:", "c.jpg").toFile());
+//        MockMultipartFile mockMultipartFile = new MockMultipartFile("c.jpg", "c.jpg", null, inputStream);
+//        FileService fileService = new LocalFileService();
+//        fileService.store(mockMultipartFile);
     }
 }

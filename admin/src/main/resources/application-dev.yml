@@ -14,7 +14,7 @@ server:
   port: 8080
 
 file:
-  rootPath: F:\upload
+  rootPath: D:\upload
   imgPath: /img/
 
 
