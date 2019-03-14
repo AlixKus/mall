@@ -2,6 +2,8 @@ package com.mcs.mall.admin.component.security;
 
 import com.mcs.mall.admin.bo.AdminUserDetails;
 import com.mcs.mall.mapper.UmsAdminLoginLogMapper;
+import com.mcs.mall.mapper.UmsAdminMapper;
+import com.mcs.mall.model.UmsAdmin;
 import com.mcs.mall.model.UmsAdminLoginLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,8 @@ public class AdminAuthenticationSuccessHandler implements AuthenticationSuccessH
     @Autowired
     UmsAdminLoginLogMapper logMapper;
 
+    @Autowired
+    UmsAdminMapper umsAdminMapper;
 
     private Logger logger = LoggerFactory.getLogger(AdminAuthenticationSuccessHandler.class);
 
@@ -30,13 +34,17 @@ public class AdminAuthenticationSuccessHandler implements AuthenticationSuccessH
         /*
         登录成功日志
          */
+        Date loginTime = new Date();
         UmsAdminLoginLog loginLog = new UmsAdminLoginLog();
         AdminUserDetails adminUserDetails = (AdminUserDetails) authentication.getPrincipal();
         loginLog.setAdminId(adminUserDetails.getID());
-        loginLog.setCreateTime(new Date());
+        loginLog.setCreateTime(loginTime);
         loginLog.setIp(request.getRemoteAddr());
         loginLog.setUserAgent(request.getHeader("User-Agent"));
         logMapper.insert(loginLog);
+        UmsAdmin umsAdmin = adminUserDetails.getUmsAdmin();
+        umsAdmin.setLoginTime(loginTime);
+        umsAdminMapper.updateByPrimaryKey(umsAdmin);
         response.sendRedirect("/");
     }
 

@@ -12,6 +12,7 @@ public class AdminUserDetails implements UserDetails {
 
     private UmsAdmin umsAdmin;
 
+
     public AdminUserDetails(UmsAdmin umsAdmin) {
         this.umsAdmin = umsAdmin;
     }
@@ -23,8 +24,12 @@ public class AdminUserDetails implements UserDetails {
         System.out.println(adminUserDetails.getAuthorities().toString());
     }
 
-    public Long getID()
-    {
+
+    public UmsAdmin getUmsAdmin() {
+        return umsAdmin;
+    }
+
+    public Long getID() {
         return umsAdmin.getId();
     }
 
