@@ -1,13 +1,50 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/BASE::html('')}" xmlns:th="http://www.thymeleaf.org">
-<div class="content" id="app" th:fragment="content">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>A</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+    <img :src="admin.icon" height="100px" width="100px"/>
+    <h2>Username:{{admin.username}}</h2>
+    <h2>Email:{{admin.email}}</h2>
+    <h2>nickName:{{admin.nickName}}</h2>
+    <h2>note:{{admin.note}}</h2>
 </div>
-<script th:fragment="es6">
-    var data = {};
+<script th:src="@{/js/lodash.min.js}"></script>
+<script th:src="@{/js/axios.min.js}"></script>
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
+<script>
+    var data = {
+        msg: "用户信息",
+        admin: {
+            "username": "",
+            "icon": "",
+            "email": "",
+            "nickName": "",
+            "note": ""
+        }
+    };
     var app = new Vue({
         el: '#app',
         data: data,
-        methods: {}
+        created: function () {
+            console.log("Start---");
+            this.getAdmin();
+            console.log("End---")
+        },
+        methods: {
+            getAdmin: function () {
+                $.get("/admin", result => {
+                    this.admin = result;
+                });
+            }
+        }
     });
 </script>
+</body>
 </html>

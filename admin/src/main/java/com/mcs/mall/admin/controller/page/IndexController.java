@@ -16,11 +16,6 @@ public class IndexController {
         return "vue";
     }
 
-    @GetMapping("/a")
-    public String admin() {
-        return "a";
-    }
-
     @GetMapping("/test")
     public String test() {
         return "test";

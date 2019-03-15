@@ -18,4 +18,10 @@ public class AdminController {
         return "admin/register";
     }
 
+
+    @GetMapping("/info")
+    @ApiOperation(value = "用户信息", httpMethod = "GET")
+    public String admin() {
+        return "admin/info";
+    }
 }
