@@ -29,6 +29,7 @@ public class AdminAPI {
         return adminVo;
     }
 
+
     @PostMapping("/register")
     @ApiOperation(value = "后台用户注册", httpMethod = "POST")
     public UmsAdmin register(UmsAdminParam adminParam) {

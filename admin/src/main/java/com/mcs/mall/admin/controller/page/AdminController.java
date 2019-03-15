@@ -9,13 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-@Api(tags = "AdminController", description = "AdminController后台页面Controller")
+@Api(tags = "AdminController", description = "Admin后台页面")
 public class AdminController {
 
     @GetMapping("/register")
     @ApiOperation(value = "后台注册页面", httpMethod = "GET")
     public String register() {
         return "admin/register";
+    }
+
+    @GetMapping("/info")
+    @ApiOperation("当前登录用户信息页面")
+    public String info() {
+        return "admin/info";
     }
 
 }
