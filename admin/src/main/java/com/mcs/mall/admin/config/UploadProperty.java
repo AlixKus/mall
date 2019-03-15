@@ -3,8 +3,6 @@ package com.mcs.mall.admin.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.Paths;
-
 @Component
 public class UploadProperty {
     @Value("${file.rootPath}")
@@ -16,5 +14,10 @@ public class UploadProperty {
     public String getIMG_PATH() {
         return ROOT_PATH + IMG_PATH;
     }
+
+    public String getIMG_PREFIX() {
+        return IMG_PATH;
+    }
+
 
 }

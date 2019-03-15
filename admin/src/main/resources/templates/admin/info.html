@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/BASE::html('')}" xmlns:th="http://www.thymeleaf.org">
+<div class="content" id="app" th:fragment="content">
+</div>
+<script th:fragment="es6">
+    var data = {};
+    var app = new Vue({
+        el: '#app',
+        data: data,
+        methods: {}
+    });
+</script>
+</html>

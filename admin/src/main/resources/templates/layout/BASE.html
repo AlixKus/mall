@@ -1,0 +1,19 @@
+<html th:fragment="html(title)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="::content">
+    </div>
+</div>
+<script th:src="@{/js/lodash.min.js}"></script>
+<script th:src="@{/js/axios.min.js}"></script>
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
+<script th:replace="::es6"></script>
+</body>
+</html>

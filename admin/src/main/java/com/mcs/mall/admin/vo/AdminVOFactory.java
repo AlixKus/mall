@@ -6,13 +6,15 @@ import com.mcs.mall.model.UmsAdmin;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AdminVOFactory {
     private static String PREFIX;
 
     @Autowired
     public void setPREFIX(UploadProperty uploadProperty) {
-        PREFIX = uploadProperty.getIMG_PATH();
+        PREFIX = uploadProperty.getIMG_PREFIX();
     }
 
     public static AdminVO getAdmin(Authentication authentication) {
