@@ -20,10 +20,13 @@ public class AdminVOFactory {
     public static AdminVO getAdmin(Authentication authentication) {
         AdminUserDetails adminUserDetails = (AdminUserDetails) authentication.getPrincipal();
         UmsAdmin admin = adminUserDetails.getUmsAdmin();
+        return getAdmin(admin);
+    }
+
+    public static AdminVO getAdmin(UmsAdmin admin) {
         AdminVO adminVo = new AdminVO();
         BeanUtils.copyProperties(admin, adminVo);
         adminVo.setIcon(PREFIX + adminVo.getIcon());
         return adminVo;
     }
-
 }
