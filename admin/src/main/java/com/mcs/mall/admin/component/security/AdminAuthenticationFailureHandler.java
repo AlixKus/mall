@@ -18,5 +18,6 @@ public class AdminAuthenticationFailureHandler implements AuthenticationFailureH
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         logger.info("LoggerFailure");
+        response.sendRedirect("/login");
     }
 }
