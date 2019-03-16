@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/BASE::html('添加商品分类')}" xmlns:th="http://www.thymeleaf.org">
+<div class="content" id="app" th:fragment="content">
+    {{msg}}
+    <form @submit.prevent="onSubmit">
+        <label for="name">name</label>
+        <input id="name" th:type="text" v-model.trim="category.name"/>
+        <br/>
+        <label for="description">description</label>
+        <input id="description" th:type="text" v-model.trim="category.description"/>
+        <br/>
+        <label for="keywords">keywords</label>
+        <input id="keywords" th:type="text" v-model.trim="category.keywords"/>
+        <br/>
+        <label for="navStatus">navStatus</label>
+        <select id="navStatus" v-model="category.navStatus">
+            <option value="1">显示</option>
+            <option value="0">不显示</option>
+        </select>
+        <br/>
+        <label for="parentId">parentId</label>
+        <select id="parentId" v-model="category.parentId">
+            <option disabled value=‘0’>请选择</option>
+            <option value="0">无父类</option>
+            <option :c="c" :key="c.id" is="copt" v-for="c in categoryParents"></option>
+        </select>
+        <br/>
+        <label for="productAttributeIdList">productAttributeIdList</label>
+        <input id="productAttributeIdList" th:type="text" v-model="category.productAttributeIdList"/>
+        <br/>
+        <label for="productUnit">productUnit</label>
+        <input id="productUnit" th:type="text" v-model="category.productUnit"/>
+        <br/>
+        <label for="showStatus">showStatus</label>
+        <input id="showStatus" th:type="text" v-model="category.showStatus"/>
+        <br/>
+        <label for="sort">sort</label>
+        <input id="sort" th:type="text" v-model="category.sort"/>
+        <br/>
+        <label for="icon">icon</label>
+        <input @change="update($event)" accept="image/png,image/gif,image/jpeg" id="icon" name="icon" type="file"/>
+        {{category.icon}}
+        <br/>
+        <input th:type="submit" th:value="添加"/>
+    </form>
+</div>
+<script th:fragment="es6">
+    Vue.component('copt', {
+        props: ['c'],
+        template: '<option :value="c.id">{{c.name}}</option>'
+    });
+    var data = {
+        msg: "添加商品分类",
+        categoryParents: [],
+        category: {
+            name: '',
+            description: '',
+            keywords: '',
+            navStatus: '',
+            icon: '',
+            parentId: '',
+            productAttributeIdList: '',
+            productUnit: '',
+            showStatus: '',
+            sort: ''
+        }
+    };
+    var app = new Vue({
+        el: '#app',
+        data: data,
+        created: function () {
+            this.getCategoryParent();
+        },
+        methods: {
+            getCategoryParent: function () {
+                axios.get('/category/parent')
+                    .then(response => {
+                        this.categoryParents = response.data;
+                        console.log(this.categoryParents);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            onSubmit: function () {
+                $.post('/category/add', this.category, function (response) {
+                    console.log(response);
+                });
+            },
+            update: function (e) {
+                let file = e.target.files[0];
+                let param = new FormData(); //创建form对象
+                param.append('img', file, file.name);//通过append向form对象添加数据
+                let config = {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                };  //添加请求头
+                axios.post('/upload', param, config)
+                    .then(response => {
+                        this.category.icon = response.data;
+                    })
+            }
+        }
+    });
+</script>
+</html>
