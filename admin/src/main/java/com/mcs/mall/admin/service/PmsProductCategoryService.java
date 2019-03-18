@@ -21,4 +21,6 @@ public interface PmsProductCategoryService {
     List<PmsProductCategory> getList(Long parentId, Integer pageSize, Integer pageNum);
 
     List<PmsProductCategory> getParentList();
+
+    List<PmsProductCategory> getAllSubList();
 }

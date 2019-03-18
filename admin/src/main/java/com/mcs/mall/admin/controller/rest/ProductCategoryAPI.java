@@ -31,4 +31,9 @@ public class ProductCategoryAPI {
         return categoryService.getParentList();
     }
 
+    @GetMapping("/sub")
+    @ApiOperation("所有子分类")
+    public List<PmsProductCategory> sub() {
+        return categoryService.getAllSubList();
+    }
 }

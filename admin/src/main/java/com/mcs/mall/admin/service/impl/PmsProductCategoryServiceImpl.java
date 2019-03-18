@@ -59,4 +59,12 @@ public class PmsProductCategoryServiceImpl implements PmsProductCategoryService 
         example.createCriteria().andParentIdEqualTo(0L);
         return productCategoryMapper.selectByExample(example);
     }
+
+    @Override
+    public List<PmsProductCategory> getAllSubList() {
+        PmsProductCategoryExample example = new PmsProductCategoryExample();
+        example.setOrderByClause("sort desc");
+        example.createCriteria().andParentIdNotEqualTo(0L);
+        return productCategoryMapper.selectByExample(example);
+    }
 }

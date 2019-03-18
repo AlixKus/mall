@@ -1,13 +1,123 @@
 <!DOCTYPE html>
 <html th:replace="~{layout/BASE::html('添加商品')}" xmlns:th="http://www.thymeleaf.org">
 <div class="content" id="app" th:fragment="content">
+    <form @submit.prevent="onSubmit">
+        <h2>
+            基本信息
+        </h2>
+        <label for="productCategoryId">商品分类</label>
+        <select id="productCategoryId" v-model="product.productCategoryId">
+            <option :key="c.id" :value="c.id" v-for="c in categorylist">{{c.name}}</option>
+        </select>
+        <br>
+        <label for="productCategoryId">商品名称</label>
+        <input id="name" th:type="text" v-model.trim="product.name"/>
+        <br/>
+        <label for="subTitle">副标题</label>
+        <input id="subTitle" th:type="text" v-model.trim="product.subTitle"/>
+        <br/>
+        <label for="pic">商品图片</label>
+        <input @change="update($event)" accept="image/png,image/gif,image/jpeg" id="pic" name="pic" type="file"/>
+        {{product.pic}}
+        <br/>
+        <label for="note">简介</label>
+        <input id="note" th:type="text" v-model.trim="product.note"/>
+        <br/>
+        <label for="productSn">商品货号</label>
+        <input id="productSn" th:type="text" v-model.trim="product.productSn"/>
+        <br/>
+        <label for="price">商品售价</label>
+        <input id="price" th:type="text" v-model.trim="product.price"/>
+        <br/>
+        <label for="original_price">市场价</label>
+        <input id="original_price" th:type="text" v-model.trim="product.original_price"/>
+        <br/>
+        <label for="stock">库存</label>
+        <input id="stock" th:type="text" v-model.trim="product.stock"/>
+        <br/>
+        <label for="sort">计量单位</label>
+        <input id="sort" th:type="text" v-model.trim="product.sort"/>
+        <br/>
+        <label for="unit">排序</label>
+        <input id="unit" th:type="text" v-model.trim="product.unit"/>
+        <br/>
+        <input th:type="submit" th:value="添加"/>
+    </form>
 </div>
 <script th:fragment="es6">
-    var data = {};
+    var data = {
+        msg: 'Hello',
+        product: {
+            "id": null,
+            "productCategoryId": null,
+            "name": null,
+            "pic": null,
+            "productSn": null,
+            "deleteStatus": null,
+            "publishStatus": null,
+            "newStatus": null,
+            "recommandStatus": null,
+            "verifyStatus": null,
+            "sort": null,
+            "sale": null,
+            "price": null,
+            "promotionPrice": null,
+            "subTitle": null,
+            "originalPrice": null,
+            "stock": null,
+            "lowStock": null,
+            "unit": null,
+            "weight": null,
+            "serviceIds": null,
+            "keywords": null,
+            "note": null,
+            "albumPics": null,
+            "detailTitle": null,
+            "productCategoryName": null,
+            "description": null,
+            "detailDesc": null,
+            "detailHtml": null,
+            "detailMobileHtml": null
+        },
+        categorylist: []
+    };
     var app = new Vue({
         el: '#app',
         data: data,
-        methods: {}
+        created: function () {
+            this.getCategorylist();
+        },
+        methods: {
+            onSubmit: function () {
+                $.post('/product/add', this.product, function (response) {
+                    console.log(response);
+                });
+            },
+            getCategorylist: function () {
+                axios.get('/category/sub')
+                    .then(response => {
+                        this.categorylist = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            subCategory: function (parentID) {
+                console.log(parentID);
+            },
+            update: function (e) {
+                let file = e.target.files[0];
+                let param = new FormData(); //创建form对象
+                param.append('img', file, file.name);//通过append向form对象添加数据
+                let config = {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                };  //添加请求头
+                axios.post('/upload', param, config)
+                    .then(response => {
+                        this.product.pic = response.data;
+                    })
+            }
+        }
     });
 </script>
 </html>
