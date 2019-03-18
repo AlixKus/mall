@@ -1,12 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Vue</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
-</head>
-<body>
-<div class="container" id="app">
+<html th:replace="~{layout/BASE::html('添加商品分类')}" xmlns:th="http://www.thymeleaf.org">
+<div class="content" id="app" th:fragment="content">
     <div class="row">
         <div class="col">
             <h4>message 模板</h4>
@@ -113,14 +107,16 @@
             </template>
         </div>
     </div>
+    <div class="row">
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <blog-post content="test1" title="T1"></blog-post>
+        <blog-post content="test2" title="T2"></blog-post>
+        <blog-post content="test3" title="T3"></blog-post>
+    </div>
 </div>
-
-<script th:src="@{/js/lodash.min.js}"></script>
-<script th:src="@{/js/axios.min.js}"></script>
-<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
-<script th:src="@{/js/bootstrap.js}"></script>
-<script th:src="@{/js/vue.js}"></script>
-<script>
+<script th:fragment="es6">
     //静态组件
     Vue.component('todo-item-s', {
         template: '<li>This is a todo</li>'
@@ -132,10 +128,19 @@
         // 这个 prop 名为 todo。
         props: ['todo'],
         template: '<li>{{ todo.text }}</li>'
-    })
-
-</script>
-<script>
+    });
+    Vue.component('button-counter', {
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    });
+    Vue.component('blog-post', {
+        props: ['title', 'content'],
+        template: '<div class="blog-post"><h3>{{title}}</h3> <div v-html="content"></div></div>'
+    });
     var app = new Vue({
         el: '#app',
         data: {
@@ -230,5 +235,4 @@
         }
     })
 </script>
-</body>
 </html>

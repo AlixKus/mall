@@ -1,5 +1,6 @@
 package com.mcs.mall.admin.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.mcs.mall.admin.dto.UmsAdminParam;
 import com.mcs.mall.admin.service.UmsAdminService;
 import com.mcs.mall.mapper.UmsAdminMapper;
@@ -47,5 +48,13 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         umsAdminMapper.insertSelective(umsAdmin);
         logger.debug("新用户注册:" + umsAdmin.toString());
         return umsAdmin;
+    }
+
+    @Override
+    public List<UmsAdmin> getList(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        UmsAdminExample example = new UmsAdminExample();
+        //example.setOrderByClause("create_time desc");
+        return umsAdminMapper.selectByExample(example);
     }
 }
